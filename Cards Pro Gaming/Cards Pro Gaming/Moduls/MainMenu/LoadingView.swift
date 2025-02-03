@@ -53,7 +53,15 @@ struct LoadingView: View {
                 .padding(.bottom, 25)
             }
         }.background(
-            Color.mainRed
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 83/255, green: 11/255, blue: 11/255),
+                    Color(red: 137/255, green: 20/255, blue: 10/255),
+                    Color(red: 83/255, green: 11/255, blue: 11/255)
+                ]),
+                startPoint: .leading,
+                endPoint: .trailing
+            )
                 .ignoresSafeArea()
                 .scaledToFill()
                 
