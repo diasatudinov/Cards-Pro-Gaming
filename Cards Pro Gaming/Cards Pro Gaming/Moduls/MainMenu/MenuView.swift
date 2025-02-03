@@ -133,19 +133,7 @@ struct MenuView: View {
                                         
                                         Spacer()
                                         
-                                        Text("100")
-                                            .font(.custom(Fonts.bold.rawValue, size: 24))
-                                            .foregroundStyle(.yellow)
-                                            .frame(width: 200)
-                                            .padding(.vertical, 6)
-                                            .background(
-                                                Color.mainGreen
-                                            )
-                                            .cornerRadius(10)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 10)
-                                                    .stroke(Color.yellow, lineWidth: 1)
-                                            )
+                                        CoinsBg(coins: "100")
                                     }
                                     VStack(spacing: 15) {
                                         
