@@ -9,17 +9,23 @@
 import SwiftUI
 
 class RegistrationViewModel: ObservableObject {
-    @Published var teams: [Team] = [
-        Team(icon: "avatar1", name: ""),
-        Team(icon: "avatar2", name: ""),
-        Team(icon: "avatar3", name: ""),
-        Team(icon: "avatar4", name: ""),
-        Team(icon: "avatar5", name: ""),
-        Team(icon: "avatar6", name: "")
+    @Published var teams: [String] = [
+        "av1",
+        "av2",
+        "av3",
+        "av4",
+        "av5",
+        
+        "av6",
+        "av7",
+        "av8",
+        "av9",
+        "av10",
+        
         
     ]
     
-    @Published var currentTeam: Team? {
+    @Published var currentTeam: User? {
         didSet {
             saveTeam()
         }
@@ -40,20 +46,20 @@ class RegistrationViewModel: ObservableObject {
     
     func loadTeam() {
         if let savedData = UserDefaults.standard.data(forKey: userDefaultsTeamKey),
-           let loadedTeam = try? JSONDecoder().decode(Team.self, from: savedData) {
+           let loadedTeam = try? JSONDecoder().decode(User.self, from: savedData) {
             currentTeam = loadedTeam
         } else {
             print("No saved data found")
         }
     }
     
-    func randomTeam() -> Team? {
-        let otherTeams = teams.filter { $0.name != currentTeam?.name }
+    func randomTeam() -> User? {
+        let otherTeams = teams.filter { $0 != currentTeam?.icon }
         
-        return otherTeams.randomElement()
+        return User(icon: otherTeams.randomElement() ?? "av1", name: "")
     }
    
     func updateCurrentTeam(name: String, icon: String) {
-        currentTeam = Team(icon: icon, name: name)
+        currentTeam = User(icon: icon, name: name)
     }
 }
