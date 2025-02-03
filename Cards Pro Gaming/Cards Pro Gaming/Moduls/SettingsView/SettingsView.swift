@@ -1,19 +1,18 @@
+//
+//  SettingsView.swift
+//  Cards Pro Gaming
+//
+//  Created by Dias Atudinov on 03.02.2025.
+//
+
+
 import SwiftUI
 import StoreKit
 
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var settings: SettingsModel
-    @ObservedObject var teamVM: TeamViewModel
-    @State private var showChangeName = false
-    @State private var currentTeamIcon: String = ""
-    @State private var nickname: String = ""
+    @ObservedObject var settings: SettingsViewModel
 
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -22,188 +21,162 @@ struct SettingsView: View {
                     Spacer()
                     ZStack {
                         
-                        Image(.settingsBg)
-                            .resizable()
-                            .scaledToFit()
-                        
                         VStack(spacing: 8) {
                             
-                            VStack(spacing: 0)  {
+                            VStack(spacing: 15)  {
                                 
-                                Text("Sound")
-                                    .font(.custom(Fonts.regular.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 60:32))
-                                
+                                Text("Music")
+                                    .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 48:24))
+                                    .textCase(.uppercase)
+                                    .foregroundStyle(.yellow)
+                                HStack(spacing: 20) {
+                                    Text("Off")
+                                        .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 48:24))
+                                        .textCase(.uppercase)
+                                        .foregroundStyle(.yellow)
                                     Button {
-                                        settings.musicEnabled.toggle()
+                                        withAnimation {
+                                            settings.musicEnabled.toggle()
+                                        }
                                     } label: {
                                         if settings.musicEnabled {
-                                            Image(.on)
+                                            Image(.onCPG)
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 50:26)
+                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 68:34)
                                         } else {
-                                            Image(.off)
+                                            Image(.offCPG)
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 50:26)
+                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 68:34)
                                         }
                                     }
                                     
-                                    
-                                
-                            }
-                            
-                            VStack(spacing: 0)  {
-                                
-                                Text("Vibration")
-                                    .font(.custom(Fonts.regular.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 60 :32))
-                                
-                                    Button {
-                                        settings.soundEnabled.toggle()
-                                    } label: {
-                                        if settings.soundEnabled {
-                                            Image(.on)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 50:26)
-                                        } else {
-                                            Image(.off)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 50:26)
-                                        }
-                                    }
-                                
-                            }
-                            
-                            HStack {
-                                Button {
-                                    if let team = teamVM.currentTeam {
-                                        nickname = team.name
-                                        currentTeamIcon = team.icon
-                                    }
-                                    showChangeName = true
-                                } label: {
-                                    
-                                    TextBg(height: DeviceInfo.shared.deviceType == .pad ? 85:46, text: "Change Name", textSize: DeviceInfo.shared.deviceType == .pad ? 40:20)
+                                    Text("On")
+                                        .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 48:24))
+                                        .textCase(.uppercase)
+                                        .foregroundStyle(.yellow)
                                 }
                                 
+                            }
+                            
+                            VStack(spacing: 15)  {
+                                
+                                Text("Vibration")
+                                    .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 48 :24))
+                                    .textCase(.uppercase)
+                                    .foregroundStyle(.yellow)
+                                
+                                HStack(spacing: 20) {
+                                    Text("Off")
+                                        .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 48:24))
+                                        .textCase(.uppercase)
+                                        .foregroundStyle(.yellow)
+                                    Button {
+                                        withAnimation {
+                                            settings.soundEnabled.toggle()
+                                        }
+                                    } label: {
+                                        if settings.soundEnabled {
+                                            Image(.onCPG)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 68:34)
+                                        } else {
+                                            Image(.offCPG)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 68:34)
+                                        }
+                                    }
+                                    
+                                    Text("on")
+                                        .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 48:24))
+                                        .textCase(.uppercase)
+                                        .foregroundStyle(.yellow)
+                                }
+                            }
                                 Button {
                                     rateUs()
                                 } label: {
                                     
-                                    TextBg(height: DeviceInfo.shared.deviceType == .pad ? 85:46, text: "RATE US", textSize: DeviceInfo.shared.deviceType == .pad ? 40:20)
+                                    Text("RATE US")
+                                        .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 40:20))
+                                        .foregroundStyle(.yellow)
+                                        .textCase(.uppercase)
+                                        .padding(.vertical)
+                                        .frame(width: 134)
+                                        .background(
+                                            Color.mainGreen
+                                        )
+                                        .cornerRadius(10)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(Color.yellow, lineWidth: 1)
+                                        )
                                 }
-                            }
-                        }
+                            
+                        }.padding(20)
+                            .padding(.horizontal, 20)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color(red: 83/255, green: 11/255, blue: 11/255),
+                                    Color(red: 137/255, green: 20/255, blue: 10/255),
+                                    Color(red: 83/255, green: 11/255, blue: 11/255)
+                                ]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.yellow, lineWidth: 1)
+                        )
                     }.frame(height: geometry.size.height * 0.87)
                     
                     Spacer()
                 }
                 
                 VStack {
-                    HStack {
-                        Button {
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            ZStack {
-                                Image(.backBtn)
-                                    .resizable()
-                                    .scaledToFit()
-                                
-                            }.frame(height: DeviceInfo.shared.deviceType == .pad ? 100:50)
-                            
-                        }
-                        Spacer()
-                    }.padding([.leading, .top])
-                    Spacer()
-                }
-                
-                if showChangeName {
                     ZStack {
-                        Color.black.opacity(0.5).ignoresSafeArea()
-                        ZStack {
-                            
-                            
-                            Image(.regBg)
-                                .resizable()
-                                .scaledToFit()
-                            
-                            VStack {
-                                Spacer()
-                                Text("Name")
-                                    .font(.custom(Fonts.regular.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 70:36))
-                                    .foregroundStyle(.white)
-                                    .textCase(.uppercase)
-                                    .frame(height: DeviceInfo.shared.deviceType == .pad ? 60:30)
-                                
+                        HStack {
+                            Text("Settings")
+                                .font(.custom(Fonts.bold.rawValue, size: 40))
+                                .textCase(.uppercase)
+                                .foregroundStyle(.yellow)
+                        }
+                        HStack {
+                            Button {
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
                                 ZStack {
-                                    Image(.textFieldBg)
+                                    Image(.backIcon)
                                         .resizable()
                                         .scaledToFit()
                                     
-                                    
-                                    TextField("Nickname", text: $nickname)
-                                        .font(.custom(Fonts.regular.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 32:16))
-                                        .bold()
-                                        .padding(.horizontal)
-                                        .foregroundStyle(.white)
-                                    
-                                    
-                                }.padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 60:30)
+                                }.frame(height: DeviceInfo.shared.deviceType == .pad ? 100:50)
                                 
-                                LazyVGrid(columns: columns, spacing: DeviceInfo.shared.deviceType == .pad ? 32:16) {
-                                    ForEach(teamVM.teams.indices, id: \.self) { index in
-                                        
-                                        Button {
-                                            currentTeamIcon = teamVM.teams[index].icon
-                                        } label: {
-                                            Image(teamVM.teams[index].icon)
-                                                .resizable()
-                                                .foregroundColor(.black)
-                                                .scaledToFit()
-                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 39 * 1.8 : 39)
-                                                .clipShape(Circle())
-                                                .overlay(
-                                                    Circle()
-                                                        .stroke(currentTeamIcon == teamVM.teams[index].icon ? Color.green : Color.clear, lineWidth: 4)
-                                                )
-                                        }
-                                        
-                                    }
-                                }.padding(.bottom).padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 70:35)
-                                
-                                Spacer()
                             }
-                        }.frame(width: DeviceInfo.shared.deviceType == .pad ? 400:213, height: DeviceInfo.shared.deviceType == .pad ? 500:250)
-                        
-                        VStack {
-                            HStack {
-                                Button {
-                                    teamVM.updateCurrentTeam(name: nickname, icon: currentTeamIcon)
-                                    showChangeName = false                                } label: {
-                                        ZStack {
-                                            Image(.backBtn)
-                                                .resizable()
-                                                .scaledToFit()
-                                            
-                                        }.frame(height: DeviceInfo.shared.deviceType == .pad ? 100:50)
-                                        
-                                    }
-                                Spacer()
-                            }.padding([.leading, .top])
                             Spacer()
-                        }
+                            
+                            CoinsBg(coins: "100")
+                        }.padding([.leading, .top])
                     }
+                    Spacer()
                 }
+                
             }.background(
-                ZStack {
-                    Color.appSkyBlue
-                    
-                    Image(.bg1)
-                        .resizable()
-                        .scaledToFill()
-                }.edgesIgnoringSafeArea(.all)
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 83/255, green: 11/255, blue: 11/255),
+                        Color(red: 137/255, green: 20/255, blue: 10/255),
+                        Color(red: 83/255, green: 11/255, blue: 11/255)
+                    ]),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
                 
             )
         }
@@ -217,5 +190,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(settings: SettingsModel(), teamVM: TeamViewModel())
+    SettingsView(settings: SettingsViewModel())
 }
