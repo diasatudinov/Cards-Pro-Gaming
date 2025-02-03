@@ -1,22 +1,36 @@
+//
+//  TextBg.swift
+//  Cards Pro Gaming
+//
+//  Created by Dias Atudinov on 03.02.2025.
+//
+
+
 import SwiftUI
 
 struct TextBg: View {
-    var height: CGFloat
     var text: String
     var textSize: CGFloat
     var body: some View {
         ZStack {
-            Image(.textBg)
-                .resizable()
-                .scaledToFit()
-                .frame(height: height)
             Text(text)
-                .font(.custom(Fonts.regular.rawValue, size: textSize))
-                .foregroundStyle(.black)
+                .font(.custom(Fonts.bold.rawValue, size: textSize))
+                .foregroundStyle(.yellow)
+                .textCase(.uppercase)
+                .padding(.vertical)
+                .frame(width: 248)
+                .background(
+                    Color.mainGreen
+                )
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.yellow, lineWidth: 1)
+                )
         }
     }
 }
 
 #Preview {
-    TextBg(height: 100, text: "Select", textSize: 32)
+    TextBg(text: "Select", textSize: 32)
 }
