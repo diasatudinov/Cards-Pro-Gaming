@@ -1,10 +1,3 @@
-//
-//  ShopView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 03.02.2025.
-//
-
 
 import SwiftUI
 
@@ -18,7 +11,7 @@ struct ShopView: View {
                 ZStack {
                     HStack {
                         Text("Shop")
-                            .font(.custom(Fonts.bold.rawValue, size: 40))
+                            .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 80:40))
                             .textCase(.uppercase)
                             .foregroundStyle(.yellow)
                     }
@@ -40,13 +33,16 @@ struct ShopView: View {
                         CoinsBg(coins: "")
                     }
                 }.padding([.leading, .top])
-                HStack(spacing: 80) {
+                
+                HStack(spacing:DeviceInfo.shared.deviceType == .pad ? 160: 80) {
                     ForEach(shopVM.shopItems, id: \.self) { item in
                         
                         ZStack {
                             
-                            VStack(spacing: 20) {
-                                
+                            VStack(spacing: DeviceInfo.shared.deviceType == .pad ? 40:20) {
+                                if DeviceInfo.shared.deviceType == .pad {
+                                    Spacer()
+                                }
                                 ZStack {
                                     if item.name == "Creators of beauty" {
                                         Image(.itemImage1)
@@ -71,17 +67,20 @@ struct ShopView: View {
                                     if shopVM.boughtItems.contains(item.name) {
                                         shopVM.currentItem = item
                                     } else {
-                                        shopVM.boughtItems.append(item.name)
-                                        UserCoins.shared.minusUserCoins(for: item.price)
+                                        if UserCoins.shared.coins >= item.price {
+                                            shopVM.boughtItems.append(item.name)
+                                            UserCoins.shared.minusUserCoins(for: item.price)
+                                        }
                                     }
                                 } label: {
                                     
                                     if shopVM.boughtItems.contains(item.name) {
                                         Text(shopVM.currentItem?.name == item.name ? "Selected": "Choose")
+                                            .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 40:20))
                                             .foregroundStyle(.yellow)
                                             .textCase(.uppercase)
-                                            .padding(5)
-                                                .padding(.horizontal, 32)
+                                            .padding(DeviceInfo.shared.deviceType == .pad ? 10:5)
+                                            .padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 64:32)
                                                 .background(
                                                     Color.mainGreen
                                                 )
@@ -95,13 +94,13 @@ struct ShopView: View {
                                             Image(.coinIcon)
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(height: 20)
+                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 40:20)
                                             Text("\(item.price)")
-                                                .font(.custom(Fonts.bold.rawValue, size: 20))
+                                                .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 40:20))
                                                 .foregroundStyle(.yellow)
                                             
-                                        }.padding(5)
-                                            .padding(.horizontal, 32)
+                                        }.padding(DeviceInfo.shared.deviceType == .pad ? 10:5)
+                                            .padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 64:32)
                                             .background(
                                                 UserCoins.shared.coins < item.price ? Color.mainRed : Color.mainGreen
                                             )
