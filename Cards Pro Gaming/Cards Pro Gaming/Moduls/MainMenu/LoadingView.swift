@@ -1,9 +1,3 @@
-//
-//  LoadingView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 03.02.2025.
-//
 
 import SwiftUI
 
@@ -21,7 +15,7 @@ struct LoadingView: View {
                 Image(.logo)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 200)
+                    .frame(height: DeviceInfo.shared.deviceType == .pad ? 400 : 200)
                 Spacer()
                 ZStack {
                     VStack {
@@ -31,18 +25,18 @@ struct LoadingView: View {
                                 .progressViewStyle(LinearProgressViewStyle())
                                 .cornerRadius(20)
                                 .accentColor(Color.mainGreen)
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 12:6)
                                 
-                                .scaleEffect(y: 6.0, anchor: .center)
+                                .scaleEffect(y: DeviceInfo.shared.deviceType == .pad ? 12.0:6.0, anchor: .center)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(Color.yellow, lineWidth: 1)
-                                        .frame(height: 31)
+                                        .frame(height: DeviceInfo.shared.deviceType == .pad ? 62:31)
                                 }
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 12:6)
                             
                             Text("Loading...")
-                                .font(.custom(Fonts.bold.rawValue, size: 16))
+                                .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 32:16))
                                 .foregroundStyle(.yellow)
                                 .textCase(.uppercase)
                         }.frame(width: UIScreen.main.bounds.width / 2.5)
@@ -50,7 +44,7 @@ struct LoadingView: View {
                     }
                 }
                 .foregroundColor(.black)
-                .padding(.bottom, 25)
+                .padding(.bottom, DeviceInfo.shared.deviceType == .pad ? 50:25)
             }
         }.background(
             LinearGradient(

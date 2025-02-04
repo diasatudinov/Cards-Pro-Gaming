@@ -1,10 +1,3 @@
-//
-//  CardView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 04.02.2025.
-//
-
 
 import SwiftUI
 
@@ -17,12 +10,12 @@ struct CardView: View {
             Image("\(card.design)_cardBack")
                 .resizable()
                 .scaledToFit()
-                .frame(height: DeviceInfo.shared.deviceType == .pad ? 200:95)
+                .frame(height: DeviceInfo.shared.deviceType == .pad ? 190:95)
         } else {
             Image("\(card.design)_\(card.suit)_\(card.type)")
                 .resizable()
                 .scaledToFit()
-                .frame(height: DeviceInfo.shared.deviceType == .pad ? 200:95)
+                .frame(height: DeviceInfo.shared.deviceType == .pad ? 190:95)
         }
     }
 }

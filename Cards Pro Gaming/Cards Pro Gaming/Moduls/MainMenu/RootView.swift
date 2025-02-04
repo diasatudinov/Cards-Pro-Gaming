@@ -1,3 +1,4 @@
+
 import SwiftUI
 
 struct RootView: View {
@@ -11,11 +12,11 @@ struct RootView: View {
     var body: some View {
         ZStack {
             if verse == 1 {
-                WVWrap(urlString: Links.winStarData)
+                WVWrap(urlString: Silky.winStarData)
             } else {
                 VStack {
                     if isLoading {
-                        SplashScreen()
+                        LoadingView()
                             .onAppear {
                                 startTimer()
                             }
@@ -39,9 +40,9 @@ struct RootView: View {
     }
     
     func updateIfNeeded() {
-        if Links.shared.finalURL == nil {
+        if Silky.shared.finalURL == nil {
             Task {
-                if await !Resolver.checking() {
+                if await !ObrabotkaData.checking() {
                     verse = 1
                     toUp = false
                     

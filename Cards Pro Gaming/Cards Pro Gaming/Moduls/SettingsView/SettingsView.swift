@@ -1,10 +1,3 @@
-//
-//  SettingsView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 03.02.2025.
-//
-
 
 import SwiftUI
 import StoreKit
@@ -60,7 +53,7 @@ struct SettingsView: View {
                                 
                             }
                             
-                            VStack(spacing: 15)  {
+                            VStack(spacing: DeviceInfo.shared.deviceType == .pad ? 30:15)  {
                                 
                                 Text("Vibration")
                                     .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 48 :24))
@@ -105,7 +98,7 @@ struct SettingsView: View {
                                         .foregroundStyle(.yellow)
                                         .textCase(.uppercase)
                                         .padding(.vertical)
-                                        .frame(width: 134)
+                                        .frame(width: DeviceInfo.shared.deviceType == .pad ? 268:134)
                                         .background(
                                             Color.mainGreen
                                         )
@@ -116,8 +109,8 @@ struct SettingsView: View {
                                         )
                                 }
                             
-                        }.padding(20)
-                            .padding(.horizontal, 20)
+                        }.padding(DeviceInfo.shared.deviceType == .pad ? 40:20)
+                            .padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 40:20)
                         .background(
                             LinearGradient(
                                 gradient: Gradient(colors: [
@@ -143,7 +136,7 @@ struct SettingsView: View {
                     ZStack {
                         HStack {
                             Text("Settings")
-                                .font(.custom(Fonts.bold.rawValue, size: 40))
+                                .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 80:40))
                                 .textCase(.uppercase)
                                 .foregroundStyle(.yellow)
                         }

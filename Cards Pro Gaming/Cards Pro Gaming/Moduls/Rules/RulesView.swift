@@ -1,9 +1,3 @@
-//
-//  RulesView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 03.02.2025.
-//
 
 import SwiftUI
 
@@ -58,14 +52,16 @@ struct RulesView: View {
                         }
                         Spacer()
                     }.frame(height: DeviceInfo.shared.deviceType == .pad ? 580:290)
-                    
+                    if DeviceInfo.shared.deviceType == .pad {
+                        Spacer()
+                    }
                 }
                 
                 VStack {
                     ZStack {
                         HStack {
                             Text("Rules")
-                                .font(.custom(Fonts.bold.rawValue, size: 40))
+                                .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 80:40))
                                 .textCase(.uppercase)
                                 .foregroundStyle(.yellow)
                         }
@@ -119,7 +115,7 @@ struct RulesView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: imageHeight)
-            }.padding(15)
+            }.padding(DeviceInfo.shared.deviceType == .pad ? 30:15)
             .background(
                 LinearGradient(
                     gradient: Gradient(colors: [

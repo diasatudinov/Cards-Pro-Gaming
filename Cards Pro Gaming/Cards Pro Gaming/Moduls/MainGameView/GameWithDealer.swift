@@ -1,9 +1,3 @@
-//
-//  GameWithDealer.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 04.02.2025.
-//
 
 import SwiftUI
 import AVFoundation
@@ -54,7 +48,7 @@ struct GameWithDealer: View {
                 Image(.playTable)
                     .resizable()
                     .scaledToFit()
-                    .padding(.vertical,30)
+                    .padding(.vertical, DeviceInfo.shared.deviceType == .pad ? 60:30)
                 VStack {
                     HStack {
                         if gameType == .online {
@@ -75,7 +69,7 @@ struct GameWithDealer: View {
                             }
                         }
                     }
-                }.padding([.leading], 80).padding(.vertical)
+                }.padding([.leading], DeviceInfo.shared.deviceType == .pad ? 160:80).padding(.vertical)
             }
             
             
@@ -89,7 +83,7 @@ struct GameWithDealer: View {
                                 .resizable()
                                 .scaledToFit()
                         }
-                        .frame(height: 50)
+                        .frame(height: DeviceInfo.shared.deviceType == .pad ? 100:50)
                     }
                     
                     Spacer()
@@ -101,8 +95,10 @@ struct GameWithDealer: View {
                     CoinsBg(coins: "")
                 }
                 
-                VStack(spacing: 30) {
-                    
+                VStack(spacing: DeviceInfo.shared.deviceType == .pad ? 60:30) {
+                    if DeviceInfo.shared.deviceType == .pad {
+                        Spacer()
+                    }
                     // Dealer Section
                     VStack {
                         HStack {
@@ -122,7 +118,7 @@ struct GameWithDealer: View {
                                     )
                             }
                             
-                            HStack(spacing: -30) {
+                            HStack(spacing: DeviceInfo.shared.deviceType == .pad ? -60:-30) {
                                 
                                 ForEach(dealerCards, id: \.self) { card in
                                     CardView(card: card, hidden: !showDealerCards && dealerCards.first == card)
@@ -154,7 +150,7 @@ struct GameWithDealer: View {
                                     )
                             }
                             
-                            HStack(spacing: -30) {
+                            HStack(spacing: DeviceInfo.shared.deviceType == .pad ? -60:-30) {
                                 
                                 
                                 ForEach(playerCards, id: \.self) { card in
@@ -166,7 +162,9 @@ struct GameWithDealer: View {
                         }
                         
                     }
-                    
+                    if DeviceInfo.shared.deviceType == .pad {
+                        Spacer()
+                    }
                 }
                 
                 
@@ -181,7 +179,7 @@ struct GameWithDealer: View {
                 } else {
                     HStack {
                         Button {
-                            playSound(named: "takeStar")
+                            playSound(named: "take")
                             endPlayerTurn()
                             showMoney = true
                         }  label: {
@@ -191,7 +189,7 @@ struct GameWithDealer: View {
                                     .foregroundStyle(.yellow)
                                     .textCase(.uppercase)
                                     .padding(10)
-                                    .frame(width: 134)
+                                    .frame(width: DeviceInfo.shared.deviceType == .pad ? 260:134)
                                     .background(
                                         Color.mainRed
                                     )
@@ -204,7 +202,7 @@ struct GameWithDealer: View {
                         }
                         
                         Button {
-                            playSound(named: "flipcard")
+                            playSound(named: "turn")
                             dealCard(toPlayer: true)
                             showMoney = true
                         } label: {
@@ -215,7 +213,7 @@ struct GameWithDealer: View {
                                     .textCase(.uppercase)
                                 
                                     .padding(10)
-                                    .frame(width: 134)
+                                    .frame(width: DeviceInfo.shared.deviceType == .pad ? 260:134)
                                     .background(
                                         Color.mainGreen
                                     )
@@ -233,9 +231,6 @@ struct GameWithDealer: View {
             .padding()
             .onAppear(perform: startNewGame)
             
-            
-            
-            
             if isGameOver {
                 ZStack {
                     Color.black.opacity(0.66).ignoresSafeArea()
@@ -246,13 +241,13 @@ struct GameWithDealer: View {
                                 Image(.moneyBoard)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 200)
+                                    .frame(height: DeviceInfo.shared.deviceType == .pad ? 400:200)
                                 
                             } else {
                                 Image(.loseText)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 66)
+                                    .frame(height: DeviceInfo.shared.deviceType == .pad ? 132:66)
                             }
                         }.onAppear {
                             startTimer()
@@ -260,29 +255,30 @@ struct GameWithDealer: View {
                     } else {
                         VStack {
                             
-                            if dealerScore > 21 {
-                                Text("You Win!")
-                                    .font(.custom(Fonts.bold.rawValue, size: 50))
+                            if playerScore > 21 {
+                                Text("You lose!")
+                                    .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 100:50))
                                     .foregroundStyle(.yellow)
                                     .textCase(.uppercase)
-                            } else if playerScore > 21 {
-                                Text("You lose!")
-                                    .font(.custom(Fonts.bold.rawValue, size: 50))
+                            
+                            } else if dealerScore > 21 {
+                                Text("You Win!")
+                                    .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 100:50))
                                     .foregroundStyle(.yellow)
                                     .textCase(.uppercase)
                             } else if playerScore > dealerScore {
                                 Text("You Win!")
-                                    .font(.custom(Fonts.bold.rawValue, size: 50))
+                                    .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 100:50))
                                     .foregroundStyle(.yellow)
                                     .textCase(.uppercase)
                             } else if playerScore == dealerScore {
                                 Text("DRAW!")
-                                    .font(.custom(Fonts.bold.rawValue, size: 50))
+                                    .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 100:50))
                                     .foregroundStyle(.yellow)
                                     .textCase(.uppercase)
                             } else {
                                 Text("You lose!")
-                                    .font(.custom(Fonts.bold.rawValue, size: 50))
+                                    .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 100:50))
                                     .foregroundStyle(.yellow)
                                     .textCase(.uppercase)
                             }
@@ -300,8 +296,8 @@ struct GameWithDealer: View {
                                 
                             }
                         }
-                        .padding()
-                        .padding(.horizontal, 20)
+                        .padding(DeviceInfo.shared.deviceType == .pad ? 32: 16)
+                        .padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 40:20)
                         .background(
                             LinearGradient(
                                 gradient: Gradient(colors: [
@@ -414,13 +410,14 @@ struct GameWithDealer: View {
         }
         
         // Determine the result
-        if dealerScore > 21 {
+        if playerScore > 21 {
+            winStrike = 0
+            isWin = false
+        
+        } else if dealerScore > 21 {
             user.updateUserXP()
             user.updateUserCoins(for: 100)
             isWin = true
-        } else if playerScore > 21 {
-            winStrike = 0
-            isWin = false
         } else if playerScore > dealerScore {
             user.updateUserXP()
             user.updateUserCoins(for: 100)
@@ -473,5 +470,5 @@ struct GameWithDealer: View {
 }
 
 #Preview {
-    GameWithDealer(settingsVM: SettingsViewModel(), shopVM: ShopViewModel(), gameType: .dealer)
+    GameWithDealer(settingsVM: SettingsViewModel(), shopVM: ShopViewModel(), gameType: .online)
 }

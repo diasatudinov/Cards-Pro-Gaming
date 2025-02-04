@@ -1,24 +1,16 @@
-//
-//  MenuView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 03.02.2025.
-//
-
 
 import SwiftUI
 
 struct MenuView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State private var showTrainig = false
+    @State private var showRoulette = false
     @State private var showGame = false
-    @State private var showBestScore = false
+    @State private var showShop = false
     @State private var showHowToPlay = false
     @State private var showSettings = false
     
-    //    @StateObject var trainingVM = TrainingViewModel()
-    //    @StateObject var gameVM = GameViewModel()
-    //    @StateObject var settingsVM = SettingsModel()
+    @StateObject var shopVM = ShopViewModel()
+    @StateObject var settingsVM = SettingsViewModel()
     @StateObject var teamVM = RegistrationViewModel()
     
     var body: some View {
@@ -34,14 +26,29 @@ struct MenuView: View {
                                 
                                 VStack(spacing: 25) {
                                     
-                                    
+                                    HStack {
+                                        PlayerBg()
+                                        
+                                        
+                                    }
                                     HStack {
                                         Spacer()
-                                        VStack {
+                                        
+                                        VStack(spacing: 20) {
+                                            
+                                            Image(.logo)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 180:90)
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                        .stroke(Color.yellow, lineWidth: 1)
+                                                }
+                                            
                                             Button {
-                                                showTrainig = true
+                                                showRoulette = true
                                             } label: {
-                                                TextBg(text: "Training", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                                TextBg(text: "Daily Roulette", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
                                             
                                             
@@ -49,22 +56,22 @@ struct MenuView: View {
                                                 
                                                 showGame = true
                                             } label: {
-                                                TextBg(text: "Competitive mode", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                                TextBg(text: "Play", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
                                             
                                             Button {
                                                 withAnimation {
-                                                    showBestScore = true
+                                                    showShop = true
                                                 }
                                             } label: {
-                                                TextBg(text: "Best score", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                                TextBg(text: "Shop", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
                                             
                                             Button {
                                                 
                                                 showHowToPlay = true
                                             } label: {
-                                                TextBg(text: "How to play?", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                                TextBg(text: "Rules", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
                                             
                                             Button {
@@ -72,6 +79,8 @@ struct MenuView: View {
                                             } label: {
                                                 TextBg(text: "Settings", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
+                                            
+                                            CoinsBg(coins: "")
                                         }
                                         Spacer()
                                     }
@@ -83,14 +92,18 @@ struct MenuView: View {
                             ZStack {
                                 
                                 VStack(spacing: 15) {
-                                    Spacer()
+                                    if DeviceInfo.shared.deviceType != .pad {
+                                        
+                                        
+                                        Spacer()
+                                    }
                                     HStack(alignment: .top) {
                                         PlayerBg()
                                         Spacer()
                                         Image(.logo)
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: 90)
+                                            .frame(height: DeviceInfo.shared.deviceType == .pad ? 180:90)
                                             .overlay {
                                                 RoundedRectangle(cornerRadius: 10)
                                                     .stroke(Color.yellow, lineWidth: 1)
@@ -100,20 +113,28 @@ struct MenuView: View {
                                         
                                         CoinsBg(coins: "100")
                                     }
+                                    if DeviceInfo.shared.deviceType == .pad {
+                                        Spacer()
+                                    }
                                     VStack(spacing: 15) {
+                                        Button {
+                                            showRoulette = true
+                                        } label: {
+                                            TextBg(text: "Daily Roulette", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                        }
                                         
                                         HStack(spacing: 15) {
                                             Spacer()
                                             Button {
-                                                showTrainig = true
+                                                showGame = true
                                             } label: {
-                                                TextBg(text: "Training", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                                TextBg(text: "Play", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
                                             
                                             Button {
-                                                showGame = true
+                                                showShop = true
                                             } label: {
-                                                TextBg(text: "Competitive mode", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                                TextBg(text: "Shop", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
                                             Spacer()
                                             
@@ -124,27 +145,23 @@ struct MenuView: View {
                                             Spacer()
                                             Button {
                                                 withAnimation {
-                                                    showBestScore = true
+                                                    showHowToPlay = true
                                                 }
                                             } label: {
-                                                TextBg(text: "Best score", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                                TextBg(text: "Rules", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
                                             
                                             Button {
                                                 
-                                                showHowToPlay = true
+                                                showSettings = true
                                             } label: {
-                                                TextBg(text: "How to play?", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
+                                                TextBg(text: "Settings", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
                                             }
                                             
                                             Spacer()
                                         }
                                         
-                                        Button {
-                                            showSettings = true
-                                        } label: {
-                                            TextBg(text: "Settings", textSize: DeviceInfo.shared.deviceType == .pad ? 48 : 24)
-                                        }
+                                        
                                         
                                         
                                     }
@@ -159,44 +176,42 @@ struct MenuView: View {
                     
                 }
                 .background(
-                    ZStack {
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(red: 83/255, green: 11/255, blue: 11/255),
-                                Color(red: 137/255, green: 20/255, blue: 10/255),
-                                Color(red: 83/255, green: 11/255, blue: 11/255)
-                            ]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .ignoresSafeArea()
-                        .scaledToFill()
-                    }.edgesIgnoringSafeArea(.all)
-                    
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 83/255, green: 11/255, blue: 11/255),
+                            Color(red: 137/255, green: 20/255, blue: 10/255),
+                            Color(red: 83/255, green: 11/255, blue: 11/255)
+                        ]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
                 )
-                //                                .onAppear {
-                //                                    if settingsVM.musicEnabled {
-                //                                        MusicPlayer.shared.playBackgroundMusic()
-                //                                    }
-                //                                }
-                //                                .onChange(of: settingsVM.musicEnabled) { enabled in
-                //                                    if enabled {
-                //                                        MusicPlayer.shared.playBackgroundMusic()
-                //                                    } else {
-                //                                        MusicPlayer.shared.stopBackgroundMusic()
-                //                                    }
-                //                                }
-                .fullScreenCover(isPresented: $showTrainig) {
-                    // TrainingView(viewModel: trainingVM, settingsVM: settingsVM)
+                .onAppear {
+                    if settingsVM.musicEnabled {
+                        SongsManager.shared.playBackgroundMusic()
+                    }
+                }
+                .onChange(of: settingsVM.musicEnabled) { enabled in
+                    if enabled {
+                        SongsManager.shared.playBackgroundMusic()
+                    } else {
+                        SongsManager.shared.stopBackgroundMusic()
+                    }
+                }
+                .fullScreenCover(isPresented: $showRoulette) {
+                    DailyRouletteView()
                 }
                 .fullScreenCover(isPresented: $showGame) {
-                    //  OnlineView(teamVM: teamVM, settingsVM: settingsVM)
+                    PlayView(settingsVM: settingsVM, shopVM: shopVM)
                 }
                 .fullScreenCover(isPresented: $showHowToPlay) {
-                    // RulesView()
+                     RulesView()
+                }
+                .fullScreenCover(isPresented: $showShop) {
+                    ShopView(shopVM: shopVM)
                 }
                 .fullScreenCover(isPresented: $showSettings) {
-                    // SettingsView(settings: settingsVM, teamVM: teamVM)
+                     SettingsView(settings: settingsVM)
                     
                 }
                 

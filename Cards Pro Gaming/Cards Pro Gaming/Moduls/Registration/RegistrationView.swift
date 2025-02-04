@@ -1,10 +1,3 @@
-//
-//  RegistrationView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 03.02.2025.
-//
-
 
 import SwiftUI
 
@@ -91,15 +84,12 @@ struct RegistrationView: View {
                             }
                         } label: {
                             ZStack {
-                                //                                Image(currentTeam != nil && !nickname.isEmpty ? .startBtnBgOn : .startBtnBgOff)
-                                //                                    .resizable()
-                                //                                    .scaledToFit()
                                 Text("Play")
                                     .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 70:36))
                                     .foregroundStyle(.yellow)
                                     .textCase(.uppercase)
-                                    .padding(.horizontal, 74)
-                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 140:74)
+                                    .padding(.vertical, DeviceInfo.shared.deviceType == .pad ? 20:10)
                                 
                                     .background(
                                         Color.mainGreen
@@ -113,8 +103,8 @@ struct RegistrationView: View {
                             .frame(height: DeviceInfo.shared.deviceType == .pad ? 160:80)
                         }
                     }
-                    .padding(.vertical, 20)
-                    .padding(.horizontal, 46)
+                    .padding(.vertical, DeviceInfo.shared.deviceType == .pad ? 40:20)
+                    .padding(.horizontal, DeviceInfo.shared.deviceType == .pad ? 90:46)
                     .background(
                         
                         LinearGradient(

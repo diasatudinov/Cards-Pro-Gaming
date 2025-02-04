@@ -1,132 +1,162 @@
+
+import SwiftUI
+
 struct DailyRouletteView: View {
-    @StateObject var user = User.shared
-    @State private var bonusPoints: Int? = nil // To display the bonus points after button press
-    @State private var lastPressDate: Date? = nil // Track the last press date
-    @State private var isButtonDisabled: Bool = false // Disable button logic
+    @StateObject var user = UserCoins.shared
+    @State private var bonusPoints: Int? = nil
+    @State private var lastPressDate: Date? = nil
+    @State private var isButtonDisabled: Bool = false 
     @Environment(\.presentationMode) var presentationMode
     
     @State private var rotationAngle: Double = 0
     @State private var isSpinning = false
     @State private var reward: Int? = nil
 
-    let rewards = [0, 10, 20, 30, 40, 50, 100]
+    let rewards = [0, 10, 100, 1000, 50]
     
     var body: some View {
         ZStack {
             
             VStack(spacing: 0) {
-                HStack {
-                    Button {
-                        handleButtonPress()
-                    } label: {
-                        TextBg(height: DeviceInfo.shared.deviceType == .pad ? 140:70, text: "START", textSize: DeviceInfo.shared.deviceType == .pad ? 32:16)
-                            .opacity(isButtonDisabled ? 0.5 : 1.0)
-                    } .disabled(isButtonDisabled)
-                    Spacer()
+                
                     VStack {
                         Spacer()
                         ZStack {
                             
-                            Image("spinner")
+                            Image("roulette")
                                 .resizable()
                                 .scaledToFit()
                                 .rotationEffect(.degrees(rotationAngle))
                             
-                            VStack {
-                                Image(.spinnerTriangle)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: DeviceInfo.shared.deviceType == .pad ? 200:100)
-                                Spacer()
-                            }
-                        }.frame(width: DeviceInfo.shared.deviceType == .pad ? 500:300, height: DeviceInfo.shared.deviceType == .pad ? 650:350)
+                            
+                        }.frame( height: DeviceInfo.shared.deviceType == .pad ? 560:279)
                         
+                        Button {
+                            handleButtonPress()
+                        } label: {
+                            TextBg(text: "Spin", textSize: DeviceInfo.shared.deviceType == .pad ? 48:24)
+                                .opacity(isButtonDisabled ? 0.5 : 1.0)
+                        } .disabled(isButtonDisabled)
+                        
+                        if DeviceInfo.shared.deviceType == .pad {
+                            Spacer()
+                        }
                     }
-                    Spacer()
-                    TextBg(height: DeviceInfo.shared.deviceType == .pad ? 140:70, text: "START", textSize: DeviceInfo.shared.deviceType == .pad ? 32:16)
-                        .opacity(0)
-                }
+                  
                 
             }
             VStack {
                 ZStack {
-                    HStack {
-                        Spacer()
-                        
-                        Text("Daily roulette")
-                            .font(.custom(Fonts.regular.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 60:35))
-                            .foregroundStyle(.yellow)
-                            .textCase(.uppercase)
-                            
-                        
-                        Spacer()
-                    }
+                    
                     HStack {
                         Button {
                             presentationMode.wrappedValue.dismiss()
                         } label: {
                             ZStack {
-                                Image(.backBtn)
+                                Image(.backIcon)
                                     .resizable()
                                     .scaledToFit()
                                 
-                            }.frame(height: 50)
+                            }.frame(height: DeviceInfo.shared.deviceType == .pad ? 100:50)
                             
                         }
                         Spacer()
+                        
+                        CoinsBg(coins: "")
                     }.padding()
                 }
                 Spacer()
-                if let reward = reward {
-                    Text("You won \(reward) coins!")
-                        .font(.title)
-                        .foregroundColor(.green)
+                
+            }
+            if let reward = reward {
+                if isButtonDisabled {
+                    Color.black.opacity(0.5).ignoresSafeArea()
+                    VStack {
+                        HStack {
+                            Button {
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                ZStack {
+                                    Image(.backIcon)
+                                        .resizable()
+                                        .scaledToFit()
+                                    
+                                }.frame(height: DeviceInfo.shared.deviceType == .pad ? 100:50)
+                                
+                            }
+                            Spacer()
+                            
+                            CoinsBg(coins: "")
+                        }.padding()
+                        Spacer()
+                    }
+                    VStack(spacing: -20) {
+                        Image(.congratulationsText)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: DeviceInfo.shared.deviceType == .pad ? 132:66)
+                        ZStack {
+                            Image(.rouletteBg)
+                                .resizable()
+                                .scaledToFit()
+                            
+                            Text("\(reward)")
+                                .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 96:48))
+                                .foregroundColor(.yellow)
+                            
+                        }.frame(height: DeviceInfo.shared.deviceType == .pad ? 360:180)
+                    }
                 }
             }
         }.background(
-            Image(.appBg)
-                .resizable()
-                .edgesIgnoringSafeArea(.all)
-                .scaledToFill()
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 83/255, green: 11/255, blue: 11/255),
+                    Color(red: 137/255, green: 20/255, blue: 10/255),
+                    Color(red: 83/255, green: 11/255, blue: 11/255)
+                ]),
+                startPoint: .leading,
+                endPoint: .trailing
+            )
             
         )
         .onAppear {
             checkButtonState()
+            reward = UserDefaults.standard.integer(forKey: "savedBonus")
         }
         
     }
     
     func startSpinning() {
-        reward = nil // Reset reward
+        reward = nil
         isSpinning = true
 
-        // Spin the spinner for 3 seconds
         withAnimation(.easeInOut(duration: 3)) {
             let spins = Double.random(in: 3...5)
             rotationAngle += spins * 360
         }
 
-        // Determine the reward after the spin
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            reward = rewards.randomElement() // Pick a random reward
+            reward = rewards.randomElement()
             if let reward = reward {
+                UserDefaults.standard.set(reward, forKey: "savedBonus")
                 user.updateUserCoins(for: reward)
             }
             isSpinning = false
-            isButtonDisabled = false
         }
+        
+        checkButtonState()
     }
     
     private func handleButtonPress() {
         startSpinning()
-        lastPressDate = Date() // Update last press date
+        lastPressDate = Date()
         UserDefaults.standard.set(lastPressDate, forKey: "LastPressDate")
-        UserDefaults.standard.set(reward, forKey: "savedBonus")
         
-        isButtonDisabled = true // Disable button
         
-//        // Optionally refresh button state after 24 hours
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5 * 60) {
+        isButtonDisabled = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + (30 * 60) + 1) {
             checkButtonState()
         }
     }
@@ -135,8 +165,8 @@ struct DailyRouletteView: View {
        
         if let savedDate = UserDefaults.standard.object(forKey: "LastPressDate") as? Date {
             let elapsedTime = Date().timeIntervalSince(savedDate)
-            if elapsedTime >= 5 * 60 {
-                isButtonDisabled = false // Re-enable button
+            if elapsedTime >= 30 * 60 {
+                isButtonDisabled = false
             } else {
                 isButtonDisabled = true
             }
