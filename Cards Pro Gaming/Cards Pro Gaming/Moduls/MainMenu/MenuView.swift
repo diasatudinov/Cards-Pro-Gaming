@@ -16,10 +16,6 @@ struct MenuView: View {
     @State private var showHowToPlay = false
     @State private var showSettings = false
     
-    @State private var timeRemaining: String = "24:00"
-    @State private var timerActive: Bool = false
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
     //    @StateObject var trainingVM = TrainingViewModel()
     //    @StateObject var gameVM = GameViewModel()
     //    @StateObject var settingsVM = SettingsModel()
@@ -89,38 +85,7 @@ struct MenuView: View {
                                 VStack(spacing: 15) {
                                     Spacer()
                                     HStack(alignment: .top) {
-                                        HStack(spacing: 10) {
-                                            Image(team.icon)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(height: 50)
-                                            VStack(alignment: .leading) {
-                                                Text(team.name)
-                                                    .font(.custom(Fonts.bold.rawValue, size: 16))
-                                                    .foregroundStyle(.yellow)
-                                                    
-                                                ZStack {
-                                                        
-                                                    ProgressView(value: 50, total: 100)
-                                                        .progressViewStyle(LinearProgressViewStyle())
-                                                        .cornerRadius(20)
-                                                        .accentColor(Color.mainGreen)
-                                                        .padding(.horizontal, 1)
-                                                        
-                                                        .scaleEffect(y: 4.0, anchor: .center)
-                                                        .overlay {
-                                                            RoundedRectangle(cornerRadius: 20)
-                                                                .stroke(Color.yellow, lineWidth: 1)
-                                                                .frame(height: 21)
-                                                        }
-                                                    
-                                                    Text("Level 1")
-                                                        .font(.custom(Fonts.bold.rawValue, size: 10))
-                                                        .foregroundStyle(.yellow)
-                                                        .textCase(.uppercase)
-                                                }.frame(width: 140)
-                                            }
-                                        }
+                                        PlayerBg()
                                         Spacer()
                                         Image(.logo)
                                             .resizable()
@@ -241,6 +206,7 @@ struct MenuView: View {
         }
         
     }
+    
     
 }
 
