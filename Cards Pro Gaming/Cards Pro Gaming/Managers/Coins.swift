@@ -17,13 +17,12 @@ class UserCoins: ObservableObject {
     @AppStorage("experience") var storedXP: Int = 0
     @Published var xp: Int = 0
     
-    @AppStorage("energy") var storedEnergy: Int = 20
-    @Published var energy: Int = 20
-    
+    @AppStorage("level") var storedLevel: Int = 1
+    @Published var level: Int = 1
     init() {
         coins = storedCoins
         xp = storedXP
-        energy = storedEnergy
+        level = storedLevel
     }
     
     func updateUserCoins(for coins: Int) {
@@ -41,23 +40,14 @@ class UserCoins: ObservableObject {
     }
     
     func updateUserXP() {
-        self.xp += 2
+        self.xp += 66
         
         if self.xp > 99 {
+            level += 1
+            storedLevel = level
             self.xp = 0
         }
         storedXP = self.xp
-    }
-    
-    func buyUserEnergy() {
-        minusUserCoins(for: 5)
-        self.energy += 1
-        storedEnergy = self.energy
-    }
-    
-    func minusUserEnergy(for energy: Int) {
-        self.energy -= energy
-        storedEnergy = self.energy
     }
     
 }
