@@ -1,9 +1,3 @@
-//
-//  CoinsBg.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 03.02.2025.
-//
 
 import SwiftUI
 
@@ -15,8 +9,8 @@ struct CoinsBg: View {
             Image(.coinIcon)
                 .resizable()
                 .scaledToFit()
-                .frame(height: 30)
-                .padding(5)
+                .frame(height: DeviceInfo.shared.deviceType == .pad ? 60:30)
+                .padding(DeviceInfo.shared.deviceType == .pad ? 10:5)
                 .background(
                     Color.mainGreen
                 )
@@ -26,10 +20,10 @@ struct CoinsBg: View {
                         .stroke(Color.yellow, lineWidth: 1)
                 )
             Text("\(user.coins)")
-                .font(.custom(Fonts.bold.rawValue, size: 24))
+                .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 48:24))
                 .foregroundStyle(.yellow)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 6)
+                .padding(.vertical, DeviceInfo.shared.deviceType == .pad ? 12:6)
                 .background(
                     Color.mainGreen
                 )
@@ -38,7 +32,7 @@ struct CoinsBg: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.yellow, lineWidth: 1)
                 )
-        }.frame(width: 200)
+        }.frame(width: DeviceInfo.shared.deviceType == .pad ? 400:200)
     }
 }
 

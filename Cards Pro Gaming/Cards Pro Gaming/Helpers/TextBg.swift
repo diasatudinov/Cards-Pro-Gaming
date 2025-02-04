@@ -1,9 +1,3 @@
-//
-//  TextBg.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 03.02.2025.
-//
 
 
 import SwiftUI
@@ -18,19 +12,19 @@ struct TextBg: View {
                 .foregroundStyle(.yellow)
                 .textCase(.uppercase)
                 .padding(.vertical)
-                .frame(width: 248)
+                .frame(width: DeviceInfo.shared.deviceType == .pad ? 500:248)
                 .background(
                     Color.mainGreen
                 )
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.yellow, lineWidth: 1)
+                        .stroke(Color.yellow, lineWidth: DeviceInfo.shared.deviceType == .pad ? 2:1)
                 )
         }
     }
 }
 
 #Preview {
-    TextBg(text: "Select", textSize: 32)
+    TextBg(text: "Select", textSize: DeviceInfo.shared.deviceType == .pad ? 64:32)
 }

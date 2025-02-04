@@ -1,9 +1,3 @@
-//
-//  PlayerBg.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 04.02.2025.
-//
 
 import SwiftUI
 
@@ -21,10 +15,10 @@ struct PlayerBg: View {
                     Image(team.icon)
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 50)
+                        .frame(height: DeviceInfo.shared.deviceType == .pad ? 100:50)
                     VStack(alignment: .leading) {
                         Text(team.name)
-                            .font(.custom(Fonts.bold.rawValue, size: 16))
+                            .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 32:16))
                             .foregroundStyle(.yellow)
                         
                         ZStack {
@@ -35,31 +29,31 @@ struct PlayerBg: View {
                                 .accentColor(Color.mainGreen)
                                 .padding(.horizontal, 1)
                             
-                                .scaleEffect(y: 4.0, anchor: .center)
+                                .scaleEffect(y: DeviceInfo.shared.deviceType == .pad ? 8.0:4.0, anchor: .center)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(Color.yellow, lineWidth: 1)
-                                        .frame(height: 21)
+                                        .frame(height: DeviceInfo.shared.deviceType == .pad ? 42:21)
                                 }
                             
                             Text("Level \(UserCoins.shared.level)")
-                                .font(.custom(Fonts.bold.rawValue, size: 10))
+                                .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 20:10))
                                 .foregroundStyle(.yellow)
                                 .textCase(.uppercase)
-                        }.frame(width: 140)
+                        }.frame(width: DeviceInfo.shared.deviceType == .pad ? 280:140)
                     }
                 }
             }
         } else {
             
-                HStack(spacing: 10) {
+            HStack(spacing: DeviceInfo.shared.deviceType == .pad ? 20:10) {
                     Image(teamVM.randomTeam()?.icon ?? "")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 50)
+                        .frame(height: DeviceInfo.shared.deviceType == .pad ? 100:50)
                     VStack(alignment: .leading) {
                         Text("Oponent")
-                            .font(.custom(Fonts.bold.rawValue, size: 16))
+                            .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 32:16))
                             .foregroundStyle(.yellow)
                         
                         ZStack {
@@ -70,18 +64,18 @@ struct PlayerBg: View {
                                 .accentColor(Color.mainGreen)
                                 .padding(.horizontal, 1)
                             
-                                .scaleEffect(y: 4.0, anchor: .center)
+                                .scaleEffect(y: DeviceInfo.shared.deviceType == .pad ? 8.0:4.0, anchor: .center)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(Color.yellow, lineWidth: 1)
-                                        .frame(height: 21)
+                                        .frame(height: DeviceInfo.shared.deviceType == .pad ? 42:21)
                                 }
                             
                             Text("Level \(Int.random(in: 2...6))")
-                                .font(.custom(Fonts.bold.rawValue, size: 10))
+                                .font(.custom(Fonts.bold.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 20:10))
                                 .foregroundStyle(.yellow)
                                 .textCase(.uppercase)
-                        }.frame(width: 140)
+                        }.frame(width: DeviceInfo.shared.deviceType == .pad ? 280:140)
                     }
                 }
             

@@ -1,9 +1,3 @@
-//
-//  ContentView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 02.02.2025.
-//
 
 import SwiftUI
 

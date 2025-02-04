@@ -1,10 +1,3 @@
-//
-//  User.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 04.02.2025.
-
-
 
 import SwiftUI
 

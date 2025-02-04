@@ -1,9 +1,4 @@
-//
-//  AceChoiceView.swift
-//  Cards Pro Gaming
-//
-//  Created by Dias Atudinov on 04.02.2025.
-//
+
 import SwiftUI
 
 struct AceChoiceView: View {
@@ -22,7 +17,7 @@ struct AceChoiceView: View {
                         .foregroundStyle(.yellow)
                         .textCase(.uppercase)
                         .padding(10)
-                        .frame(width: 134)
+                        .frame(width: DeviceInfo.shared.deviceType == .pad ? 260:134)
                         .background(
                             Color.mainGreen
                         )
@@ -43,7 +38,7 @@ struct AceChoiceView: View {
                         .foregroundStyle(.yellow)
                         .textCase(.uppercase)
                         .padding(10)
-                        .frame(width: 134)
+                        .frame(width: DeviceInfo.shared.deviceType == .pad ? 260:134)
                         .background(
                             Color.mainGreen
                         )
