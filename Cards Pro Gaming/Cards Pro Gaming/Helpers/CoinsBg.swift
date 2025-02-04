@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CoinsBg: View {
+    @StateObject var user = UserCoins.shared
     @State var coins: String
     var body: some View {
         HStack(spacing: 4) {
@@ -24,7 +25,7 @@ struct CoinsBg: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.yellow, lineWidth: 1)
                 )
-            Text(coins)
+            Text("\(user.coins)")
                 .font(.custom(Fonts.bold.rawValue, size: 24))
                 .foregroundStyle(.yellow)
                 .frame(maxWidth: .infinity)
