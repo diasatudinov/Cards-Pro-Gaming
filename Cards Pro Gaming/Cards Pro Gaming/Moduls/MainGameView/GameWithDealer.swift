@@ -1,8 +1,25 @@
+//
+//  GameWithDealer.swift
+//  Cards Pro Gaming
+//
+//  Created by Dias Atudinov on 04.02.2025.
+//
+
+import SwiftUI
+import AVFoundation
+
+enum GameType {
+    case dealer
+    case online
+}
+
 struct GameWithDealer: View {
     @StateObject var user = UserCoins.shared
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var settingsVM: SettingsViewModel
     @ObservedObject var shopVM: ShopViewModel
+    
+    @State var gameType: GameType
     
     @State private var playerCards: [Card] = []
     @State private var dealerCards: [Card] = []
@@ -39,8 +56,26 @@ struct GameWithDealer: View {
                     .scaledToFit()
                     .padding(.vertical,30)
                 VStack {
+                    HStack {
+                        if gameType == .online {
+                            HStack {
+                                PlayerBg()
+                                Spacer()
+                            }
+                        }
+                    }
+                    Spacer()
                     
-                }
+                    HStack {
+                        if gameType == .online {
+                            HStack {
+                                Spacer()
+                                PlayerBg(playerType: .opponent)
+                                
+                            }
+                        }
+                    }
+                }.padding([.leading], 80).padding(.vertical)
             }
             
             
@@ -435,4 +470,8 @@ struct GameWithDealer: View {
         }
     }
     
+}
+
+#Preview {
+    GameWithDealer(settingsVM: SettingsViewModel(), shopVM: ShopViewModel(), gameType: .dealer)
 }
