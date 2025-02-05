@@ -27,8 +27,15 @@ struct DailyRouletteView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .rotationEffect(.degrees(rotationAngle))
-                            
-                            
+                            VStack {
+                                Image(.flagIcon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: DeviceInfo.shared.deviceType == .pad ? 70:34)
+                                    .offset(y: DeviceInfo.shared.deviceType == .pad ? 80:40)
+                                    .rotationEffect(Angle(degrees: isSpinning ? -20:0))
+                                Spacer()
+                            }
                         }.frame( height: DeviceInfo.shared.deviceType == .pad ? 560:279)
                         
                         Button {
@@ -129,20 +136,23 @@ struct DailyRouletteView: View {
     
     func startSpinning() {
         reward = nil
-        isSpinning = true
-
+        withAnimation {
+            isSpinning = true
+        }
         withAnimation(.easeInOut(duration: 3)) {
             let spins = Double.random(in: 3...5)
             rotationAngle += spins * 360
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
             reward = rewards.randomElement()
             if let reward = reward {
                 UserDefaults.standard.set(reward, forKey: "savedBonus")
                 user.updateUserCoins(for: reward)
             }
-            isSpinning = false
+            withAnimation {
+                isSpinning = false
+            }
         }
         
         checkButtonState()
